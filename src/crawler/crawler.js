@@ -3,18 +3,17 @@ const { urlencoded } = require("express");
 const request = require("request-promise");
 
 async function scrapping(url) {
-    const obtain = await request({
+    const $ = await request({
         uri: 'https://news.ycombinator.com/',
         transform: (body) => cheerio.load(body),
     });
-    const webHackerTitle = obtain('title');
-    console.log(webHackerTitle.html());
 
-    const ListTitleLink = obtain(".titlelink").find('a');
-    console.log(ListTitleLink.html());
+    const ListTitleLink = $(".titlelink").each((i, el) => {
+        console.log(i, $(el).html())
+    });
 
-    const itemList = obtain(".itemlist");
-    console.log(itemList.html());
+    // const itemList = $(".itemlist");
+    // console.log(itemList.html());
 
 
 }
