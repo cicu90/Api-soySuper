@@ -4,8 +4,13 @@ const app = express();
 const port = process.env.PORT || 4000
 
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>');
+  res.send('<h1>Api SoySuper</h1>');
 });
+
+//todo
+// app.get('/', (req, res) => {
+//   res.send('<h1>Api SoySuper</h1>');
+// });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
