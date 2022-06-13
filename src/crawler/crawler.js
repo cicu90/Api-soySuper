@@ -3,9 +3,7 @@ const request = require("request-promise");
 const fs = require('fs-extra');
 const writeStream = fs.createWriteStream('list.csv');
 
-async function scrapping(number) {
-    const numberPage = 30;
-    const startingNumber = (number - 1) * numberPage;
+async function scrapping(pageNumber, rowsNumber) {
 
     const allInfoArray = [];
     const pageInfoArray = [];
@@ -17,7 +15,7 @@ async function scrapping(number) {
     });
 
     writeStream.write('Title | User | Score | Age | Comments\n');
-
+    let index = 0;
     $(".titlelink").each((i, el) => {
         const listTitle = $(el).text();
         const ListUrl = $(el).attr("href");
@@ -28,21 +26,26 @@ async function scrapping(number) {
             const comments = [];
             $(el).find(":nth-child(6)").each((i, el) => comments.push($(el).text()));
             writeStream.write(`${listTitle}|${score}|${user}|${age}|${comments}\n`)
+
             allInfoArray.push({
                 listTitle,
                 ListUrl,
                 user,
                 score,
                 age,
-                comments
+                comments,
+                index
             });
+            index++;
         });
     });
-
-    for (var i = startingNumber; i < numberPage * number; i++) {
+    if (!rowsNumber || !pageNumber) {
+        return allInfoArray;
+    }
+    const startingNumber = (pageNumber - 1) * rowsNumber;
+    for (var i = startingNumber; i < rowsNumber * pageNumber; i++) {
         pageInfoArray.push({
-            ...allInfoArray[i],
-            "index": i
+            ...allInfoArray[i]
         });
     }
     // console.log(1, pageInfoArray)
