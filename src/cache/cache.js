@@ -6,7 +6,7 @@ const cache = new NodeCache({
     checkperiod: 310
 });
 
-let responseCache = null;
+let responseCache = new Map();
 const verifyCache = (req, res, next) => {
     try {
         let key = 1;
@@ -14,7 +14,7 @@ const verifyCache = (req, res, next) => {
             key = req.params['numberPage'];
         }
         if (cache.has(key)) {
-            return res.json(responseCache);
+            return res.json(responseCache.get(key));
         }
         cache.set(key);
         return next();
@@ -23,8 +23,8 @@ const verifyCache = (req, res, next) => {
     }
 };
 
-function setResponseCache(data) {
-    responseCache = data;
+function setResponseCache(key, value) {
+    responseCache.set(key, value);
 }
 
 module.exports = {
