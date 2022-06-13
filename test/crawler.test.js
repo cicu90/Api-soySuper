@@ -5,8 +5,15 @@ describe("the crawler", () => {
 
     let testing;
 
-    test("equal user", () => {
-        expect(testing).toBe()
-    });
+    describe('Sample Test', () => {
+        it('should test that true === true', () => {
+          expect(true).toBe(true)
+        })
+      });
+
+    // test("equal user", () => {
+    //     expect(testing).toBe()
+    // });
 
 })
+

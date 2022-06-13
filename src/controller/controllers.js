@@ -6,7 +6,19 @@ const { scrapping } = require("../crawler/crawler");
 
 const getDataController = async (req, res) => {
     try {
-        let page = req.query.page;
+        let page = 1;
+        console.log(req.params)
+        let crawlData = await scrapping(page);
+        res.json(crawlData);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const getMorePageController = async (req, res) => {
+    try {
+        let page = req.params['numberPage'];
+        console.log(req.params)
         let crawlData = await scrapping(page);
         res.json(crawlData);
     } catch (error) {
@@ -28,5 +40,6 @@ const cacheController = async () => {
 
 module.exports = {
     getDataController,
+    getMorePageController,
     cacheController
 };
