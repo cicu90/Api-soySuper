@@ -1,5 +1,8 @@
 const { response } = require("express");
+const { cacheFn } = require("../cache/cache");
 const { scrapping } = require("../crawler/crawler");
+
+// const testScrapping = new ScrappingTesting();
 
 const getDataController = async (req, res) => {
     try {
@@ -11,10 +14,19 @@ const getDataController = async (req, res) => {
     }
 };
 
-
+const cacheController = async () => {
+    const url = "https://news.ycombinator.com/";
+    try {
+        let cacheResponse = await scrapping(url);
+        res.json(cacheResponse);
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 
 module.exports = {
-    getDataController
+    getDataController,
+    cacheController
 };
