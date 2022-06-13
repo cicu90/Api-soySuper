@@ -1,23 +1,13 @@
-const express = require('express');
-const router = require('./src/router/router');
-const app = express();
-const port = process.env.PORT || 4000
-
-app.get('/', (req, res) => {
-  res.send('<h1>Api SoySuper</h1>');
-});
+const app = require("./server");
 
 //todo
 // app.get('/', (req, res) => {
 //   res.send('<h1>Api SoySuper</h1>');
 // });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(app.get("port"), () => {
+  console.log("Server on port ", app.get("port"));
 });
 
-//routes
-
-app.use(router);
 
 module.exports = app;
