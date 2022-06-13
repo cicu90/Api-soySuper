@@ -1,5 +1,5 @@
 const { response } = require("express");
-const { cacheFn } = require("../cache/cache");
+const { verifyCache, setResponseCache } = require("../cache/cache");
 const { scrapping } = require("../crawler/crawler");
 
 // const testScrapping = new ScrappingTesting();
@@ -7,8 +7,8 @@ const { scrapping } = require("../crawler/crawler");
 const getDataController = async (req, res) => {
     try {
         let page = 1;
-        console.log(req.params)
         let crawlData = await scrapping(page);
+        setResponseCache(crawlData);
         res.json(crawlData);
     } catch (error) {
         console.log(error);
@@ -18,8 +18,8 @@ const getDataController = async (req, res) => {
 const getMorePageController = async (req, res) => {
     try {
         let page = req.params['numberPage'];
-        console.log(req.params)
         let crawlData = await scrapping(page);
+        setResponseCache(crawlData);
         res.json(crawlData);
     } catch (error) {
         console.log(error);

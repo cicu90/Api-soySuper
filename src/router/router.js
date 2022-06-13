@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const {getDataController, getMorePageController} = require("../controller/controllers")
 
-router.get("/", getDataController);
+const { verifyCache,setResponseCache  } = require("../cache/cache");
 
-router.get("/:numberPage", getMorePageController);
+router.get("/",verifyCache, getDataController);
 
-
+router.get("/:numberPage", verifyCache,getMorePageController);
 
 module.exports = router;
