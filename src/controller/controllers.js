@@ -1,8 +1,11 @@
-const { response } = require("express");
-const { verifyCache, setResponseCache } = require("../cache/cache");
-const { scrapping } = require("../crawler/crawler");
-
-// const testScrapping = new ScrappingTesting();
+const {response} = require("express");
+const {
+    verifyCache,
+    setResponseCache
+} = require("../cache/cache");
+const {
+    scrapping
+} = require("../crawler/crawler");
 
 const getDataController = async (req, res) => {
     try {
@@ -35,7 +38,6 @@ const cacheController = async () => {
         console.log(error)
     }
 }
-
 
 
 module.exports = {

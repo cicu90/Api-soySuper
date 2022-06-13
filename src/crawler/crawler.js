@@ -12,7 +12,7 @@ async function scrapping(number) {
         uri: 'https://news.ycombinator.com/',
         transform: (body) => cheerio.load(body),
     });
-    
+
     writeStream.write('Title | User | Score | Age | Comments\n');
     let index = 0;
     $(".titlelink").each((i, el) => {
