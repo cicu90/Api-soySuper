@@ -21,9 +21,11 @@ async function scrapping(number) {
         $(".subtext").each((i, el) => {
             const score = $(el).find('.score').text();
             const user = $(el).find('hnuser').text();
+            // console.log('.hnuser'.user)
             const age = $(el).find('span.age').text();
             const comments = [];
             $(el).find(":nth-child(6)").each((i, el) => comments.push($(el).text()));
+            console.log(comments)
             writeStream.write(`${listTitle}|${score}|${user}|${age}|${comments}\n`)
             allInfoArray.push({
                 listTitle,

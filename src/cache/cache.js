@@ -9,7 +9,7 @@ const cache = new NodeCache({
 let responseCache = new Map();
 const verifyCache = (req, res, next) => {
     try {
-        let key = 1;
+        let key = '1';
         if (!(req.params['numberPage'] == undefined)) {
             key = req.params['numberPage'];
         }
