@@ -5,7 +5,7 @@ const writeStream = fs.createWriteStream('list.csv');
 
 async function scrapping(number) {
     const numberPage = 30;
-    const startingNumber = (number - 1) * numberPage;
+    // const startingNumber = (number - 1) * numberPage;
     const allInfoArray = [];
     const pageInfoArray = [];
     const $ = await request({
@@ -25,7 +25,7 @@ async function scrapping(number) {
             const age = $(el).find('span.age').text();
             const comments = [];
             $(el).find(":nth-child(6)").each((i, el) => comments.push($(el).text()));
-            console.log(comments)
+            // console.log(comments)
             writeStream.write(`${listTitle}|${score}|${user}|${age}|${comments}\n`)
             allInfoArray.push({
                 listTitle,
@@ -41,7 +41,7 @@ async function scrapping(number) {
         return allInfoArray;
     });
 
-    for (var i = startingNumber; i < numberPage * number; i++) {
+    for (var i = 0; i < numberPage * number; i++) {
         pageInfoArray.push({
             ...allInfoArray[i],
             "index": i
