@@ -29,19 +29,7 @@ const getMorePageController = async (req, res) => {
     }
 };
 
-// const cacheController = async () => {
-//     const url = "https://news.ycombinator.com/";
-//     try {
-//         let cacheResponse = await scrapping(url);
-//         res.json(cacheResponse);
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
-
 module.exports = {
     getDataController,
     getMorePageController
-    // cacheController
 };

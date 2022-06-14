@@ -20,12 +20,11 @@ async function scrapping(number) {
         const ListUrl = $(el).attr("href");
         $(".subtext").each((i, el) => {
             const score = $(el).find('.score').text();
-            const user = $(el).find('hnuser').text();
-            // console.log('.hnuser'.user)
+            const user = $(el).find('.hnuser').text();
             const age = $(el).find('span.age').text();
-            const comments = [];
-            $(el).find(":nth-child(6)").each((i, el) => comments.push($(el).text()));
-            // console.log(comments)
+            const commentsArray = [];
+            $(el).find(":nth-child(6)").each((i, el) => commentsArray.push($(el).text()));
+            const comments = commentsArray[0];
             writeStream.write(`${listTitle}|${score}|${user}|${age}|${comments}\n`)
             allInfoArray.push({
                 listTitle,
