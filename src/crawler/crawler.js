@@ -4,20 +4,40 @@ const fs = require('fs-extra');
 const writeStream = fs.createWriteStream('list.csv');
 
 async function scrapping(number) {
-    const numberPage = 30;
-    // const startingNumber = (number - 1) * numberPage;
-    const allInfoArray = [];
-    const pageInfoArray = [];
-    const $ = await request({
-        uri: 'https://news.ycombinator.com/',
-        transform: (body) => cheerio.load(body),
-    });
 
-    writeStream.write('Title | User | Score | Age | Comments\n');
+    const allInfoArray = [];
     let index = 0;
-    $(".titlelink").each((i, el) => {
-        const listTitle = $(el).text();
-        const ListUrl = $(el).attr("href");
+
+    let urlArray = [];
+    for (let index = 1; index <= number; index++) {
+        urlArray.push(
+            await request({
+            uri: 'https://news.ycombinator.com/news?p=' + index,
+            transform: (body) => cheerio.load(body),
+        }));
+    }
+
+    writeStream.write('Title | User | Score | Age | Comments\n\n\n');
+    
+    urlArray.forEach(($) => {
+        $(".titlelink").each((i, el) => {
+            const listTitle = $(el).text();
+            const listUrl = $(el).attr("href");
+    
+            let iterateObj = {
+                listTitle: undefined,
+                listUrl: undefined,
+                user: undefined,
+                score: undefined,
+                age: undefined,
+                comments: undefined,
+                index: undefined,
+            };
+            iterateObj.listTitle = listTitle;
+            iterateObj.listUrl = listUrl;
+    
+            allInfoArray.push(iterateObj);
+        });
         $(".subtext").each((i, el) => {
             const score = $(el).find('.score').text();
             const user = $(el).find('.hnuser').text();
@@ -25,28 +45,17 @@ async function scrapping(number) {
             const commentsArray = [];
             $(el).find(":nth-child(6)").each((i, el) => commentsArray.push($(el).text()));
             const comments = commentsArray[0];
-            writeStream.write(`${listTitle}|${score}|${user}|${age}|${comments}\n`)
-            allInfoArray.push({
-                listTitle,
-                ListUrl,
-                user,
-                score,
-                age,
-                comments,
-                index
-            });
-            index++;
+            allInfoArray[index].index = index;
+            allInfoArray[index].user = user;
+            allInfoArray[index].score = score;
+            allInfoArray[index].age = age;
+            allInfoArray[index].comments = comments;
+            writeStream.write(`${allInfoArray[index].listTitle}|${allInfoArray[index].score}|${allInfoArray[index].user}|${allInfoArray[index].age}|${allInfoArray[index].comments}\n\n`);
+            index++
         });
-        return allInfoArray;
-    });
+    })
 
-    for (var i = 0; i < numberPage * number; i++) {
-        pageInfoArray.push({
-            ...allInfoArray[i],
-            "index": i
-        });
-    }
-    return pageInfoArray;
+    return allInfoArray;
 }
 
 module.exports = {
